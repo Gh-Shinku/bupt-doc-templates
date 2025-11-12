@@ -72,14 +72,13 @@
   date: " 年 月 日",
   body,
 ) = {
-  // Set the document's basic properties.
+  /* Basic properties */
   set document(author: author, title: title)
-  set text(font: "FZXiaoBiaoSong-B05S", lang: "zh") // 方正小标宋简体
   show math.equation: set text(weight: 400)
   set heading(numbering: "1.1")
   set par(justify: true)
 
-  // Logo
+  /* Logo */
   if logo != none {
     v(1.2cm)
     align(center, image(logo, width: 60%))
@@ -87,7 +86,7 @@
     v(0.75fr)
   }
 
-  // Title
+  /* Title */
   v(1cm)
   align(center)[
     #set text(FONTSIZE.ErHao, weight: 700)
@@ -96,7 +95,7 @@
   ]
   v(0.9fr)
 
-  // Author information
+  /* Author information */
   pad(
     top: 1em,
     bottom: 1cm,

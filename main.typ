@@ -1,6 +1,6 @@
 #import "template.typ": *
 #import "template-cover.typ": project
-#import "@preview/itemize:0.1.2" as el
+#import "@preview/itemize:0.2.0" as el
 #show: el.default-enum-list
 
 #show: project.with(
@@ -46,10 +46,10 @@
 
 这是一幅图。
 
-#Figure(
+#figureCC(
   "images/夜明けと蛍.jpg",
   [Cover 夜明けと蛍],
-  90%,
+  width: 90%,
 )
 
 == 表格示例

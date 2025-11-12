@@ -407,33 +407,12 @@
 }
 
 
-/* 图 */
-#let Figure(
-  file,
-  caption,
-  width,
-) = {
-  show figure: it => context {
-    let chapterLevel = counter(heading).get().first()
-
-    align(center)[
-      #it.body
-      #text(
-        font: (FONTSET.at("English"), FONTSET.at("Kai")).flatten(),
-        size: FONTSIZE.WuHao,
-        [图 #chapterLevel\-#figureCounter.display() #caption],
-      )
-    ]
-
-    figureCounter.step()
-  }
-
-  figure(image(file, width: width))
-}
-
-#let Figure1(
+/* 图: figure with Chinese caption */
+#let figureCC(
   content,
   caption,
+  height: auto,
+  width: 100%,
 ) = block(breakable: false, width: 100%)[
   #show figure: it => context {
     let chapterLevel = counter(heading).get().first()
@@ -450,7 +429,7 @@
     figureCounter.step()
   }
 
-  #figure(content)
+  #figure(image(content, height: height, width: width))
 ]
 
 /* 表格 */
