@@ -5,7 +5,7 @@
 
 #show: project.with(
   title: "标题",
-  logo: "images/bupt.png",
+  logo: "images/bupt-badge-binary.png",
   info: (
     ("题目", "题目"),
     ("姓名", "张三"),

@@ -141,17 +141,33 @@
     it
   }
 
-  /* 代码 */
-  show raw.where(block: true): it => {
-    set block(stroke: 0.5pt, width: 100%, inset: 1em)
-    set text(font: ("Hack Nerd Font Mono", FONTSET.at("English"), FONTSET.at("Song")).flatten(), size: FONTSIZE.WuHao)
-    it
-  }
+  /* custom code block: suppose lang does not include `_` */
+  show raw: it => {
+    if it.lang != none and it.lang.contains("_") {
+      let parts = it.lang.split("_")
+      let style-prefix = parts.at(0)
+      let lang = parts.at(1)
 
-  /* 行内代码/原始内联内容使用相同的等宽字体 */
-  show raw.where(block: false): it => {
-    set text(font: ("Hack Nerd Font Mono", FONTSET.at("English"), FONTSET.at("Song")).flatten(), size: FONTSIZE.WuHao)
-    it
+      if style-prefix == "border" {
+        block(
+          stroke: 0.5pt,
+          width: 100%,
+          inset: 1em,
+        )[
+          #show raw: set text(
+            font: ("Hack Nerd Font Mono", FONTSET.at("English"), FONTSET.at("Song")).flatten(),
+            size: FONTSIZE.WuHao,
+          )
+          #text[
+            #raw(it.text, lang: lang, block: true)
+          ]
+        ]
+      } else {
+        it
+      }
+    } else {
+      it
+    }
   }
 
   /* 目录 */
@@ -405,7 +421,6 @@
 
   body
 }
-
 
 /* 图: figure with Chinese caption */
 #let figureCC(
