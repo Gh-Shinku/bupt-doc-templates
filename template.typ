@@ -156,7 +156,7 @@
         )[
           #show raw: set text(
             font: ("Hack Nerd Font Mono", FONTSET.at("English"), FONTSET.at("Song")).flatten(),
-            size: FONTSIZE.WuHao,
+            size: FONTSIZE.XiaoWu,
           )
           #text[
             #raw(it.text, lang: lang, block: true)
@@ -185,105 +185,17 @@
   )
   counter(page).update(1)
 
-  show outline: it => context {
-    set par(first-line-indent: 0em)
-
+  show outline: it => {
     align(center)[
       #text(font: FONTSET.at("Hei"), weight: "semibold", tracking: 2em, size: FONTSIZE.SanHao, [目录\ \ ])
     ]
 
-    let chapterCounter = 1
-    let sectionCounter = 1
-    let subsectionCounter = 1
-    let subsubsectionCounter = 1
-    let headingList = query(heading)
-
-    // 用于去重的位置跟踪
-    let lastPos = none
-
-    for i in headingList {
-      if i.outlined == false {
-        continue
-      }
-
-      // 跳过相同位置的重复标题
-      let currentPos = i.location().position()
-      if lastPos != none and currentPos == lastPos {
-        continue
-      }
-      lastPos = currentPos
-
-      link(
-        i.location(),
-        {
-          if i.level == 1 {
-            set text(font: (FONTSET.at("Hei")), size: FONTSIZE.XiaoSi, weight: "semibold")
-
-            // 将 body 转换为字符串进行比较
-            let bodyStr = repr(i.body)
-
-            // 检查是否是特殊章节（必须精确匹配，避免误判）
-            // 特殊章节：参考文献、致谢、附录、外文资料、外文译文
-            let isSpecial = (
-              (bodyStr.contains("参考文献") and not bodyStr.contains("引用"))
-                or (bodyStr.contains("致") and bodyStr.contains("谢") and bodyStr.contains("h(2em)"))
-                or (
-                  bodyStr.contains("附")
-                    and bodyStr.contains("录")
-                    and bodyStr.contains("h(2em)")
-                    and not bodyStr.contains("附录 ")
-                )
-                or (
-                  bodyStr.contains("外")
-                    and bodyStr.contains("资")
-                    and bodyStr.contains("料")
-                    and bodyStr.contains("h(1em)")
-                )
-                or (bodyStr.contains("外") and bodyStr.contains("译") and bodyStr.contains("h(1em)"))
-            )
-
-            if isSpecial {
-              // 特殊章节，不带编号
-              [#i.body #box(width: 1fr, repeat[.]) #counter(page).at(i.location()).at(0)\ ]
-            } else {
-              // 普通章节，带编号
-              [#chineseNumMap(chapterCounter)、#i.body #box(width: 1fr, repeat[.]) #counter(page).at(i.location()).at(0)\ ]
-              chapterCounter = chapterCounter + 1
-            }
-
-            sectionCounter = 1
-          } else if i.level == 2 {
-            [#h(1em)#calc.abs(chapterCounter - 1)\.#sectionCounter#h(1em)#i.body #box(width: 1fr, repeat[.]) #(
-                counter(page).at(i.location()).at(0)
-              )\
-            ]
-
-            sectionCounter += 1
-            subsectionCounter = 1
-          } else if i.level == 3 {
-            [#h(2em)#calc.abs(chapterCounter - 1)\.#calc.abs(sectionCounter - 1)\.#subsectionCounter#h(1em)#i.body #box(
-                width: 1fr,
-                repeat[.],
-              ) #counter(page).at(i.location()).at(0)\
-            ]
-
-            subsectionCounter += 1
-            subsubsectionCounter = 1
-          } else {
-            [
-              #h(3em)#calc.abs(chapterCounter - 1)\.#calc.abs(
-                sectionCounter - 1,
-              )\.#subsectionCounter\.#subsubsectionCounter#h(1em)#i.body #box(width: 1fr, repeat[.]) #(
-                counter(page).at(i.location()).at(0)
-              )\
-            ]
-
-            subsubsectionCounter += 1
-          }
-        },
-      )
-    }
+    it
   }
+
+  show outline.entry.where(
+    level: 1,
+  ): set text(font: (FONTSET.at("Hei")), size: FONTSIZE.XiaoSi, weight: "semibold")
 
   outline(title: none, depth: 4, indent: auto)
 
