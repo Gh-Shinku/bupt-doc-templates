@@ -102,8 +102,8 @@
 #let FONTSET = (
   English: "Times New Roman",
   Hei: "Source Han Sans SC",
-  Song: "STSong",
-  // Song:    "Source Han Serif SC",
+  // Song: "STSong",
+  Song: "Source Han Serif SC",
   Kai: "STKaiti",
 )
 
@@ -141,6 +141,11 @@
     it
   }
 
+  show raw: set text(
+    font: ("Hack Nerd Font Mono", FONTSET.at("English"), FONTSET.at("Song")).flatten(),
+    size: FONTSIZE.XiaoWu,
+  )
+
   /* custom code block: suppose lang does not include `_` */
   show raw: it => {
     if it.lang != none and it.lang.contains("_") {
@@ -154,10 +159,6 @@
           width: 100%,
           inset: 1em,
         )[
-          #show raw: set text(
-            font: ("Hack Nerd Font Mono", FONTSET.at("English"), FONTSET.at("Song")).flatten(),
-            size: FONTSIZE.XiaoWu,
-          )
           #text[
             #raw(it.text, lang: lang, block: true)
           ]
