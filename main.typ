@@ -62,9 +62,9 @@
 使用 `figureCC` 函数插入图片，题注会自动包含章节号：
 
 #figureCC(
-  "images/bupt-badge-binary.png",
-  [北京邮电大学校徽],
-  width: 30%,
+  "images/夜明けと蛍.png",
+  [夜明けと蛍],
+  width: 80%,
 )
 
 === 表格
