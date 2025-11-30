@@ -289,6 +289,21 @@
   )
 }
 
+/* 引用块，同 Markdown 中的 `>` */
+#let blockquote(body) = {
+  block(
+    stroke: (left: 0.25em + rgb("#d0d7de")),
+
+    inset: (left: 1em, y: 0.6em),
+
+    spacing: 1.2em,
+
+    width: 100%,
+
+    text(fill: rgb("#656d76"), body),
+  )
+}
+
 /* 全角括号有序列表 */
 #let FullWidthParenList(content) = {
   set enum(numbering: "（1）")
