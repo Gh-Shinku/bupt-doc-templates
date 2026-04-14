@@ -75,17 +75,46 @@
   "示例表格",
   (1fr, 1fr, 1fr),
   center,
-  (
-    [*列1*],
-    [*列2*],
-    [*列3*],
-    [A],
-    [B],
-    [C],
-    [1],
-    [2],
-    [3],
-  ),
+  [*列1*],
+  [*列2*],
+  [*列3*],
+  [A],
+  [B],
+  [C],
+  [1],
+  [2],
+  [3],
+)
+
+#booktabs_table(
+  caption: [Sample table title],
+  columns: (auto, 1.5fr, 1fr),
+  align: (left, left, left),
+  // Row 0: The spanning header
+  table.cell(colspan: 2, align: center)[Part],
+  [], // Empty cell above "Size"
+
+  // Partial line under "Part" (from column 0 to 2)
+  table.hline(y: 1, start: 0, end: 2, stroke: 0.5pt),
+
+  // Row 1: The sub-headers
+  [*Name*],
+  [*Description*],
+  [*Size ($mu$m)*],
+
+  // Main separator under the full header
+  table.hline(y: 2, stroke: 0.5pt),
+
+  // Data Rows
+  [Dendrite],
+  [Input terminal],
+  [$~100$],
+  [Axon],
+  [Output terminal],
+  [$~10$],
+  [Soma],
+  [Cell body],
+  [up to $10^6$],
 )
 
 === 公式

@@ -376,30 +376,70 @@
 ]
 
 /* 表格 */
-#let Table(caption, columnsSet, alignSet, inset: 8pt, breakable: false, body) = block(
+#let Table(caption, columnsSet, alignSet, inset: 8pt, breakable: false, ..cells) = block(
   breakable: breakable,
   width: 100%,
 )[
-  #show table: it => context {
+  #context {
     let chapterLevel = counter(heading).get().first()
-
     align(center)[
       #text(
         font: (FONTSET.at("English"), FONTSET.at("Kai")).flatten(),
         size: FONTSIZE.WuHao,
-        [表 #chapterLevel\-#tableCounter.display() #caption],
-      )
-      #it
+      )[表 #chapterLevel\-#tableCounter.display() #caption]
     ]
-
-    tableCounter.step()
   }
 
-  #table(
-    columns: columnsSet,
-    align: alignSet,
-    inset: inset,
-    stroke: 0.5pt,
-    ..body
-  )
+  #tableCounter.step()
+
+  #align(center)[
+    #set text(size: FONTSIZE.WuHao)
+
+    #table(
+      columns: columnsSet,
+      align: alignSet,
+      inset: inset,
+      stroke: none,
+
+      table.hline(y: 0, stroke: 1.5pt),
+      table.hline(y: 1, stroke: 0.5pt),
+      ..cells,
+      table.hline(stroke: 1.5pt),
+    )
+  ]
 ]
+
+#let booktabs_table(
+  caption: "",
+  columns: (auto,),
+  align: left,
+  header_rows: 1,
+  ..cells,
+) = {
+  // Style the caption to be at the top and formatted correctly
+  show figure.where(kind: table): set figure.caption(position: top, separator: ": ")
+
+  // Define the table inside a figure for auto-numbering and referencing
+  figure(
+    caption: caption,
+    kind: table,
+    supplement: [Table],
+    block(width: auto, {
+      table(
+        columns: columns,
+        align: align,
+        stroke: none, // Disable all default borders
+        inset: (x: 0.8em, y: 0.5em), // Professional padding
+
+        // Top Rule
+        table.hline(y: 0, stroke: 1.5pt),
+
+        // The Cells
+        ..cells,
+
+        // Bottom Rule
+        table.hline(stroke: 1.5pt),
+      )
+    }),
+  )
+}
