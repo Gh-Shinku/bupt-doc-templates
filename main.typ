@@ -31,18 +31,24 @@
 - 中文主要使用 *Source Han Serif SC* (思源宋体)。
 - 英文主要使用 *Times New Roman*。
 - 标题使用 *Source Han Sans SC* (思源黑体)。
-- 代码块使用 *Hack Nerd Font Mono*。
+- 等宽字体使用 *Cascadia Mono*。
 
 正文默认字号为小四 (12pt)，行间距适中。
 
 == 列表样式
 
-除了标准的无序列表和有序列表外，本模板还提供了一种全角括号的有序列表样式：
-
-#FullWidthParenList[
-  + 第一项
-  + 第二项
-  + 第三项
+模板提供`CustomList`函数用于自定义有序列表的 number 样式：
+#CustomList(style: EnumStyles.dot)[
+  + 简答题
+    #CustomList(style: EnumStyles.circle)[
+      + 解释什么是流水线冒险（Pipeline Hazard）。
+      + 什么是转发机制（Forwarding）？
+    ]
+  + 计算题
+    #CustomList(style: EnumStyles.zh-paren-right)[
+      + 计算给定程序的加速比。
+      + 计算 CPI。
+    ]
 ]
 
 == 引用块

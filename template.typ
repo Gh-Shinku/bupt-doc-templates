@@ -105,6 +105,7 @@
   // Song: "STSong",
   Song: "Source Han Serif SC",
   Kai: "STKaiti",
+  Mono: "Cascadia Mono",
 )
 
 #let tableCounter = counter("Table")
@@ -142,7 +143,7 @@
   }
 
   show raw: set text(
-    font: ("Hack Nerd Font Mono", FONTSET.at("English"), FONTSET.at("Song")).flatten(),
+    font: (FONTSET.at("Mono"), FONTSET.at("English"), FONTSET.at("Song")).flatten(),
     size: FONTSIZE.XiaoWu,
   )
 
@@ -304,10 +305,30 @@
   )
 }
 
-/* 全角括号有序列表 */
-#let FullWidthParenList(content) = {
-  set enum(numbering: "（1）")
-  content
+#let EnumStyles = (
+  // ----- 数字 + 点 (最常用) -----
+  "dot": "1.", // 1. 2. 3. (默认)
+  // ----- 英文/半角括号 -----
+  "paren": "(1)", // (1) (2) (3)
+  "paren-right": "1)", // 1) 2) 3)
+  // ----- 中文/全角括号 -----
+  "zh-paren": "（1）", // （1）（2）（3）
+  "zh-paren-right": "1）", // 1） 2） 3）
+  // ----- 符号与其他 -----
+  "bracket": "[1]", // [1] [2] [3]
+  "circle": "①", // ① ② ③
+  // ----- 字母与罗马数字 -----
+  "alpha-right": "a)", // a) b) c)
+  "alpha-paren": "(a)", // (a) (b) (c)
+  "roman": "I.", // I. II. III.
+)
+
+#let CustomList(
+  body,
+  style: EnumStyles.zh-paren,
+) = {
+  set enum(numbering: style)
+  body
 }
 
 /* 附录 */
