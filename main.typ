@@ -38,14 +38,14 @@
 == 列表样式
 
 模板提供`CustomList`函数用于自定义有序列表的 number 样式：
-#CustomList(style: EnumStyles.dot)[
+#CustomList(style: EnumStyles.num-dot)[
   + 简答题
-    #CustomList(style: EnumStyles.circle)[
+    #CustomList(style: EnumStyles.num-circle)[
       + 解释什么是流水线冒险（Pipeline Hazard）。
       + 什么是转发机制（Forwarding）？
     ]
   + 计算题
-    #CustomList(style: EnumStyles.zh-paren-right)[
+    #CustomList(style: EnumStyles.num-rparen-zh)[
       + 计算给定程序的加速比。
       + 计算 CPI。
     ]

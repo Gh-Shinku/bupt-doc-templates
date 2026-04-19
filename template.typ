@@ -306,26 +306,23 @@
 }
 
 #let EnumStyles = (
-  // ----- 数字 + 点 (最常用) -----
-  "dot": "1.", // 1. 2. 3. (默认)
-  // ----- 英文/半角括号 -----
-  "paren": "(1)", // (1) (2) (3)
-  "paren-right": "1)", // 1) 2) 3)
-  // ----- 中文/全角括号 -----
-  "zh-paren": "（1）", // （1）（2）（3）
-  "zh-paren-right": "1）", // 1） 2） 3）
-  // ----- 符号与其他 -----
-  "bracket": "[1]", // [1] [2] [3]
-  "circle": "①", // ① ② ③
-  // ----- 字母与罗马数字 -----
-  "alpha-right": "a)", // a) b) c)
-  "alpha-paren": "(a)", // (a) (b) (c)
-  "roman": "I.", // I. II. III.
+  "num-dot": "1.", // 1.
+  "num-paren": "(1)", // (1)
+  "num-paren-zh": "（1）", // （1）
+  "num-rparen": "1)", // 1)
+  "num-rparen-zh": "1）", // 1）
+  "num-bracket": "[1]", // [1]
+  "num-circle": "①", // ①
+  "alpha-dot": "a.", // a.
+  "alpha-paren": "(a)", // (a)
+  "alpha-rparen": "a)", // a)
+  "roman-dot": "I.", // I.
+  "roman-lower-dot": "i.", // i.
 )
 
 #let CustomList(
   body,
-  style: EnumStyles.zh-paren,
+  style: EnumStyles.num-paren,
 ) = {
   set enum(numbering: style)
   body
