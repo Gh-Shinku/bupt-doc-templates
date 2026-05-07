@@ -12,7 +12,8 @@
     ("学号", "1281890421"),
     ("班级", "1232144222"),
   ),
-  date: "2099 年 99 月 99 日",
+  date: today.display("[year] 年 [month] 月 [day] 日"),
+  // date: "2099 年 99 月 99 日",
 )
 
 #show: bupt-doc.with(

@@ -461,3 +461,5 @@
     }),
   )
 }
+
+#let today = datetime.today()
