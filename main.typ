@@ -18,6 +18,10 @@
 
 #show: bupt-doc.with(
   titleZH: "题目",
+  abstract: [
+    这里填写摘要内容。
+  ],
+  keywords: ("关键词一", "关键词二", "关键词三"),
 )
 
 

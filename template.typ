@@ -101,8 +101,10 @@
 
 #let FONTSET = (
   English: "Times New Roman",
+  // Hei: "SimHei",
   Hei: "Source Han Sans SC",
   // Song: "STSong",
+  // Song: "SimSun",
   Song: "Source Han Serif SC",
   Kai: "STKaiti",
   Mono: "Cascadia Mono",
@@ -114,6 +116,9 @@
 
 #let bupt-doc(
   titleZH: "",
+  abstract: [],
+  keywords: (),
+  keyword-label: [关键词],
   body,
 ) = {
   set page(paper: "a4", margin: 2.5cm)
@@ -186,6 +191,39 @@
     },
   )
   counter(page).update(1)
+
+  let has-abstract = abstract != []
+  let has-keywords = keywords.len() > 0
+
+  if has-abstract or has-keywords {
+    set par(first-line-indent: 0em, leading: 1.5em)
+
+    if titleZH != "" {
+      align(center)[
+        #text(font: FONTSET.at("Hei"), weight: "semibold", size: FONTSIZE.SanHao, titleZH)
+      ]
+      v(1em)
+    }
+
+    if has-abstract {
+      align(center)[
+        #text(font: FONTSET.at("Hei"), weight: "semibold", size: FONTSIZE.SanHao)[摘要]
+      ]
+      v(1em)
+      set par(first-line-indent: 2em, justify: true)
+      abstract
+    }
+
+    if has-keywords {
+      v(1em)
+      set par(first-line-indent: 0em, justify: true)
+      text(font: FONTSET.at("Hei"), weight: "semibold", keyword-label)
+      h(1em)
+      text(keywords.join("  "))
+    }
+
+    pagebreak()
+  }
 
   show outline: it => {
     align(center)[
