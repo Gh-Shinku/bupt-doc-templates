@@ -1,12 +1,4 @@
-#let FONTSIZE = (
-  ErHao: 22pt,
-  SanHao: 16pt,
-  XiaoSan: 15pt,
-  SiHao: 14pt,
-  XiaoSi: 12pt,
-  WuHao: 10.5pt,
-  XiaoWu: 9pt,
-)
+#import "template.typ": FONTSET, FONTSIZE
 
 #let buildMainHeader(mainHeadingContent) = {
   [
@@ -69,7 +61,7 @@
   authors: (),
   info: (),
   logo: none,
-  date: " 年 月 日",
+  date: "",
   body,
 ) = {
   /* Basic properties */
@@ -89,7 +81,7 @@
   /* Title */
   v(1cm)
   align(center)[
-    #set text(FONTSIZE.ErHao, weight: 700)
+    #set text(font: FONTSET.at("Hei"), size: FONTSIZE.ErHao, weight: 700)
     #set par(leading: 1.5em)
     #text(title)
   ]
@@ -103,7 +95,7 @@
       columns: 1fr,
       gutter: 1em,
       align(center)[
-        #set text(font: ("Times New Roman", "STKaiti"), size: FONTSIZE.SanHao)
+        #set text(font: (FONTSET.at("English"), FONTSET.at("Kai")).flatten(), size: FONTSIZE.SanHao)
         #let myunderline(body) = context {
           let w = measure(body).width
           underline(
@@ -125,9 +117,11 @@
   )
 
 
-  align(center)[
-    #text(font: ("Times New Roman", "STKaiti"), size: 16pt, date)
-  ]
+  if date != "" {
+    align(center)[
+      #text(font: (FONTSET.at("English"), FONTSET.at("Kai")).flatten(), size: FONTSIZE.SanHao, date)
+    ]
+  }
 
   pagebreak()
 

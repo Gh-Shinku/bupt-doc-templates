@@ -36,7 +36,7 @@
 - 中文主要使用 *Source Han Serif SC* (思源宋体)。
 - 英文主要使用 *Times New Roman*。
 - 标题使用 *Source Han Sans SC* (思源黑体)。
-- 等宽字体使用 *Cascadia Mono*。
+- 等宽字体使用 *Consolas*。
 
 正文默认字号为小四 (12pt)，行间距适中。
 

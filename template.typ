@@ -91,6 +91,7 @@
 }
 
 #let FONTSIZE = (
+  ErHao: 22pt,
   SanHao: 16pt,
   XiaoSan: 15pt,
   SiHao: 14pt,
@@ -107,7 +108,8 @@
   // Song: "SimSun",
   Song: "Source Han Serif SC",
   Kai: "STKaiti",
-  Mono: "Cascadia Mono",
+  // Mono: "Cascadia Mono",
+  Mono: "Consolas",
 )
 
 #let tableCounter = counter("Table")
