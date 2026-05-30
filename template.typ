@@ -1,93 +1,101 @@
 #let chineseNumMap(num) = {
-  let chineseNum = (
-    "一",
-    "二",
-    "三",
-    "四",
-    "五",
-    "六",
-    "七",
-    "八",
-    "九",
-    "十",
-    "十一",
-    "十二",
-    "十三",
-    "十四",
-    "十五",
-    "十六",
-    "十七",
-    "十八",
-    "十九",
-    "二十",
-    "二十一",
-    "二十二",
-    "二十三",
-    "二十四",
-    "二十五",
-    "二十六",
-    "二十七",
-    "二十八",
-    "二十九",
-    "三十",
-    "三十一",
-    "三十二",
-    "三十三",
-    "三十四",
-    "三十五",
-    "三十六",
-    "三十七",
-    "三十八",
-    "三十九",
-    "四十",
-  )
-  chineseNum.at(num - 1)
+  let digits = ("零", "一", "二", "三", "四", "五", "六", "七", "八", "九")
+
+  let underTenThousand(num) = {
+    if num < 1 {
+      str(num)
+    } else {
+      let units = ((1000, "千"), (100, "百"), (10, "十"))
+      let n = num
+      let result = ""
+      let needs-zero = false
+
+      for unit in units {
+        let base = unit.at(0)
+        let unit-name = unit.at(1)
+        let digit = calc.floor(n / base)
+        n = n - digit * base
+
+        if digit > 0 {
+          if needs-zero {
+            result = result + "零"
+          }
+
+          if not (base == 10 and digit == 1 and result == "") {
+            result = result + digits.at(digit)
+          }
+          result = result + unit-name
+          needs-zero = false
+        } else if result != "" and n > 0 {
+          needs-zero = true
+        }
+      }
+
+      if n > 0 {
+        if needs-zero {
+          result = result + "零"
+        }
+        result = result + digits.at(n)
+      }
+
+      result
+    }
+  }
+
+  if num < 1 {
+    str(num)
+  } else if num < 10000 {
+    underTenThousand(num)
+  } else if num < 100000000 {
+    let high = calc.floor(num / 10000)
+    let low = num - high * 10000
+    let result = underTenThousand(high) + "万"
+
+    if low > 0 {
+      if low < 1000 {
+        result = result + "零"
+      }
+      result = result + underTenThousand(low)
+    }
+
+    result
+  } else {
+    let high = calc.floor(num / 100000000)
+    let low = num - high * 100000000
+    let result = chineseNumMap(high) + "亿"
+
+    if low > 0 {
+      if low < 10000000 {
+        result = result + "零"
+      }
+      result = result + chineseNumMap(low)
+    }
+
+    result
+  }
 }
 
 #let romanNumMap(num) = {
-  let romanNum = (
-    "I",
-    "II",
-    "III",
-    "IV",
-    "V",
-    "VI",
-    "VII",
-    "VIII",
-    "IX",
-    "X",
-    "XI",
-    "XII",
-    "XIII",
-    "XIV",
-    "XV",
-    "XVI",
-    "XVII",
-    "XVIII",
-    "XIX",
-    "XX",
-    "XXI",
-    "XXII",
-    "XXIII",
-    "XXIV",
-    "XXV",
-    "XXVI",
-    "XXVII",
-    "XXVIII",
-    "XXIX",
-    "XXX",
-    "XXXI",
-    "XXXII",
-    "XXXIII",
-    "XXXIV",
-    "XXXV",
-    "XXXVI",
-    "XXXVII",
-    "XXXVIII",
-    "XXXIX",
-    "XL",
-  )
-  romanNum.at(num - 1)
+  if num < 1 {
+    str(num)
+  } else {
+    let values = (1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1)
+    let symbols = ("M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I")
+    let n = num
+    let result = ""
+
+    for i in range(values.len()) {
+      let value = values.at(i)
+      let symbol = symbols.at(i)
+
+      while n >= value {
+        result = result + symbol
+        n = n - value
+      }
+    }
+
+    result
+  }
 }
 
 #let FONTSIZE = (
@@ -125,16 +133,23 @@
 ) = {
   set page(paper: "a4", margin: 2.5cm)
   set text(font: (FONTSET.at("English"), FONTSET.at("Song")).flatten(), weight: "regular", size: FONTSIZE.XiaoSi)
+  set math.equation(numbering: "1")
 
-  show math.equation: it => if it.fields().keys().contains("label") {
+  show math.equation.where(block: true): it => if it.fields().keys().contains("label") {
     context {
+      set math.equation(numbering: none)
       set par(leading: 1.5em)
-      let chapterLevel = counter(heading).at(here()).at(0)
+      let levels = counter(heading).at(here())
+      let chapterLevel = if levels.len() > 0 {
+        levels.first()
+      } else {
+        0
+      }
 
       grid(
         columns: (100pt, 1fr, 100pt),
         [],
-        align(center, it),
+        align(center, it.body),
         align(horizon + right)[
           #text(
             font: (FONTSET.at("English"), FONTSET.at("Song")).flatten(),
@@ -146,6 +161,23 @@
       equationCounter.step()
     }
   } else {
+    align(center, it.body)
+  }
+
+  show ref: it => if it.element != none and it.element.func() == math.equation {
+    context {
+      let loc = it.element.location()
+      let levels = counter(heading).at(loc)
+      let chapterLevel = if levels.len() > 0 {
+        levels.first()
+      } else {
+        0
+      }
+      let equationNumber = counter("Equation").at(loc).first()
+
+      [式（#chapterLevel\-#equationNumber）]
+    }
+  } else {
     it
   }
 
@@ -154,12 +186,12 @@
     size: FONTSIZE.XiaoWu,
   )
 
-  /* custom code block: suppose lang does not include `_` */
+  /* custom code block: use `style_lang`, such as `border_python` */
   show raw: it => {
     if it.lang != none and it.lang.contains("_") {
       let parts = it.lang.split("_")
       let style-prefix = parts.at(0)
-      let lang = parts.at(1)
+      let lang = parts.slice(1).join("_")
 
       if style-prefix == "border" {
         block(
@@ -168,7 +200,11 @@
           inset: 1em,
         )[
           #text[
-            #raw(it.text, lang: lang, block: true)
+            #if lang == "" {
+              raw(it.text, block: true)
+            } else {
+              raw(it.text, lang: lang, block: true)
+            }
           ]
         ]
       } else {
@@ -415,22 +451,25 @@
   height: auto,
   width: 100%,
 ) = block(breakable: false, width: 100%)[
-  #show figure: it => context {
+  #context {
     let chapterLevel = counter(heading).get().first()
+    let figureBody = if type(content) == str {
+      image(content, height: height, width: width)
+    } else {
+      content
+    }
 
     align(center)[
-      #it.body
+      #figureBody
       #text(
         font: (FONTSET.at("English"), FONTSET.at("Kai")).flatten(),
         size: FONTSIZE.WuHao,
         [图 #chapterLevel\-#figureCounter.display() #caption],
       )
     ]
-
-    figureCounter.step()
   }
 
-  #figure(image(content, height: height, width: width))
+  #figureCounter.step()
 ]
 
 /* 表格 */

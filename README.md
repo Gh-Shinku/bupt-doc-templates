@@ -90,6 +90,56 @@
 - `keywords: ()`：不显示关键词行。
 - 两者都为空时，模板不会额外插入摘要/关键词页。
 
+### 字体与字号
+
+字体和字号集中定义在 `template.typ` 顶部：
+
+```typst
+#let FONTSIZE = (
+  ErHao: 22pt,
+  SanHao: 16pt,
+  XiaoSan: 15pt,
+  SiHao: 14pt,
+  XiaoSi: 12pt,
+  WuHao: 10.5pt,
+  XiaoWu: 9pt,
+)
+
+#let FONTSET = (
+  English: "Times New Roman",
+  Hei: "Source Han Sans SC",
+  Song: "Source Han Serif SC",
+  Kai: "STKaiti",
+  Mono: "Consolas",
+)
+```
+
+当前默认配置：
+
+| 用途 | 默认字体 |
+|------|----------|
+| 英文与数字 | `Times New Roman` |
+| 中文正文 | `Source Han Serif SC` |
+| 标题黑体 | `Source Han Sans SC` |
+| 楷体题注 | `STKaiti` |
+| 等宽代码 | `Consolas` |
+
+修改方式：
+
+1. 修改 `template.typ` 中的 `FONTSET` 对应项，例如将正文宋体改为 `SimSun`：
+
+   ```typst
+   #let FONTSET = (
+     English: "Times New Roman",
+     Hei: "Source Han Sans SC",
+     Song: "SimSun",
+     Kai: "STKaiti",
+     Mono: "Consolas",
+   )
+   ```
+
+2. 如需调整字号，修改 `FONTSIZE` 中的尺寸值。模板正文默认使用 `FONTSIZE.XiaoSi`，表格和题注常用 `FONTSIZE.WuHao`。
+
 ### 功能一览
 
 #### 图片
@@ -101,6 +151,19 @@
   "images/your-image.png",
   [图片题注],
   width: 80%,
+)
+```
+
+`figureCC` 也支持已经包装过的内容，例如带边框的图片或自定义块：
+
+```typst
+#figureCC(
+  rect(
+    stroke: 0.5pt + gray,
+    inset: 6pt,
+    image("images/your-image.png", width: 80%),
+  ),
+  [图片题注],
 )
 ```
 
@@ -162,6 +225,14 @@ def hello():
 ```border_python
 def hello():
     print("Hello, Border!")
+```
+````
+
+如果只写 `border_`，会渲染边框但不指定代码语言：
+
+````typst
+```border_
+plain text
 ```
 ````
 

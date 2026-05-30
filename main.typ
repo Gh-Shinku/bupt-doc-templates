@@ -4,86 +4,83 @@
 #show: el.default-enum-list
 
 #show: project.with(
-  title: "标题",
+  title: "模板样式测试",
   logo: "images/bupt-badge-binary.png",
   info: (
-    ("题目", "题目"),
+    ("题目", "模板样式测试"),
     ("姓名", "张三"),
     ("学号", "1281890421"),
     ("班级", "1232144222"),
   ),
   date: today.display("[year] 年 [month] 月 [day] 日"),
-  // date: "2099 年 99 月 99 日",
 )
 
 #show: bupt-doc.with(
-  titleZH: "题目",
+  titleZH: "模板样式测试",
   abstract: [
-    这里填写摘要内容。
+    这是摘要样式测试文本。摘要段落用于检查中文正文、英文 mixed text、数字 12345、行距和首行缩进效果。
   ],
-  keywords: ("关键词一", "关键词二", "关键词三"),
+  keywords: ("模板", "样式", "Typst"),
 )
 
+= 一级标题样式
 
-// 正文
-= 模板功能演示
+正文段落样式测试。中文、English words、数字 12345、标点符号，以及较长文本用于检查默认字号、行距、首行缩进和页面宽度下的换行效果。
 
-本模板旨在提供 BUPT 实验报告的 Typst 模板。
+数字映射测试：#chineseNumMap(1)、#chineseNumMap(10)、#chineseNumMap(11)、#chineseNumMap(20)、#chineseNumMap(41)、#chineseNumMap(101)、#chineseNumMap(1001)；#romanNumMap(1)、#romanNumMap(4)、#romanNumMap(9)、#romanNumMap(40)、#romanNumMap(41)、#romanNumMap(99)。
 
-== 字体与排版
+== 二级标题样式
 
-本模板预设了符合中文排版习惯的字体设置：
-- 中文主要使用 *Source Han Serif SC* (思源宋体)。
-- 英文主要使用 *Times New Roman*。
-- 标题使用 *Source Han Sans SC* (思源黑体)。
-- 等宽字体使用 *Consolas*。
+=== 三级标题样式
 
-正文默认字号为小四 (12pt)，行间距适中。
+==== 四级标题样式
+
+多级标题后的正文段落测试。
 
 == 列表样式
 
-模板提供`CustomList`函数用于自定义有序列表的 number 样式：
 #CustomList(style: EnumStyles.num-dot)[
-  + 简答题
+  + 一级有序项
     #CustomList(style: EnumStyles.num-circle)[
-      + 解释什么是流水线冒险（Pipeline Hazard）。
-      + 什么是转发机制（Forwarding）？
+      + 嵌套有序项
+      + 嵌套有序项
     ]
-  + 计算题
+  + 一级有序项
     #CustomList(style: EnumStyles.num-rparen-zh)[
-      + 计算给定程序的加速比。
-      + 计算 CPI。
+      + 中文右括号编号
+      + 中文右括号编号
     ]
 ]
 
-== 引用块
-
-可以使用 `blockquote` 函数来实现类似 Markdown 中 `>` 的引用块效果：
+== 引用块样式
 
 #blockquote[
-  这是一个引用块示例。它左侧有一条竖线，背景色略有不同，用于突出显示引用的内容。
+  引用块样式测试。该块用于检查左侧竖线、内边距、文字颜色和段落宽度。
 ]
 
-== 图表与公式
+= 图表与公式样式
 
-本模板实现了按章节编号的图、表和公式。
-
-=== 图片
-
-使用 `figureCC` 函数插入图片，题注会自动包含章节号：
+== 图片样式
 
 #figureCC(
   "images/夜明けと蛍.png",
-  [夜明けと蛍],
+  [普通图片题注],
   width: 80%,
 )
 
-=== 表格
+#figureCC(
+  rect(
+    stroke: 0.5pt + gray,
+    inset: 6pt,
+    block(width: 60%, height: 40pt)[wrapped content],
+  ),
+  "wrapped content 图题",
+)
 
-使用 `Table` 函数插入表格，题注同样包含章节号：
+== 表格样式
 
 #Table(
-  "示例表格",
+  "三线表示例",
   (1fr, 1fr, 1fr),
   center,
   [*列1*],
@@ -98,25 +95,16 @@
 )
 
 #booktabs_table(
-  caption: [Sample table title],
+  caption: [Booktabs table title],
   columns: (auto, 1.5fr, 1fr),
   align: (left, left, left),
-  // Row 0: The spanning header
   table.cell(colspan: 2, align: center)[Part],
-  [], // Empty cell above "Size"
-
-  // Partial line under "Part" (from column 0 to 2)
+  [],
   table.hline(y: 1, start: 0, end: 2, stroke: 0.5pt),
-
-  // Row 1: The sub-headers
   [*Name*],
   [*Description*],
   [*Size ($mu$m)*],
-
-  // Main separator under the full header
   table.hline(y: 2, stroke: 0.5pt),
-
-  // Data Rows
   [Dendrite],
   [Input terminal],
   [$~100$],
@@ -128,37 +116,46 @@
   [up to $10^6$],
 )
 
-=== 公式
-
-数学公式会自动编号，格式为“式（章节号-序号）”：
+== 公式样式
 
 $ E = m c^2 $ <eq:relativity>
 
 $ e^(i pi) + 1 = 0 $ <eq:euler>
 
-公式会自动在右侧显示编号。
+公式引用：@eq:relativity，@eq:euler。
 
-== 代码块
+$ a + b = c $
 
-支持标准的代码块高亮：
+$ x + y = z $ <eq:compat-test>
+
+兼容性公式引用：@eq:compat-test。
+
+= 代码与引用样式
+
+== 代码块样式
 
 ```python
 def hello():
     print("Hello, Typst!")
 ```
 
-此外，通过在语言名称前加上 `border_` 前缀，可以给代码块添加边框：
-
 ```border_python
 def hello_with_border():
     print("Hello, Border!")
 ```
 
-== 参考文献
+```border_
+print("border without language")
+```
 
-这是一个参考文献 @cn_ref 的引用 @webster_social_media 。
+```abc_def_ghi
+print("unknown style fallback")
+```
 
-// 附页
+== 参考文献样式
+
+文献引用测试：@cn_ref，@webster_social_media。
+
 #show: Appendix.with(
   bibliographyFile: "reference.yml",
 )
